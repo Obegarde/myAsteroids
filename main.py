@@ -14,6 +14,20 @@ def main():
     game_clock = pygame.time.Clock()
     #Delta time, initialized will be used to ensure the game runs at the same pace
     dt = 0
+    
+
+
+    #Variable to hold the current score
+    score = 0
+    #Initialze a font object
+    font = pygame.font.Font('freesansbold.ttf', 32)
+    #Create a text surface object for the text to be rendered on
+    score_text = font.render(str(score), False, 'white','black')
+    #create a rect object for the text surface object
+    scoreRect = score_text.get_rect()
+    #set the center of the rect object
+    scoreRect.center = (SCREEN_WIDTH / 2 , SCREEN_HEIGHT / 8 )
+
 
     #create a group for the asteroids
     asteroids = pygame.sprite.Group()
@@ -55,12 +69,14 @@ def main():
         for asteroid in asteroids:
             if asteroid.collision_check(player):
                 print("Game Over!")
+                print("You scored " + str(score) + " points")
                 sys.exit()
             #Iterate through shots and check if the collide with any asteroid
             for shot in shots:
                 if asteroid.collision_check(shot):
                     asteroid.split()
                     shot.kill()
+                    score += 1
             
         #iterate through drawable group and draw all members
         for member in drawable:
@@ -68,8 +84,11 @@ def main():
         
 
 
-       
-      
+        #Update the scoretext object
+        score_text = font.render(str(score), False, 'white','black')
+        #Write the scoretext and scorerect to the screen display object
+        screen.blit(score_text, scoreRect)
+        
         #Update the display
         pygame.display.flip()
         #Limit the framerate to 60 fps
