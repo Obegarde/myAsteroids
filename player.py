@@ -8,6 +8,7 @@ class Player(CircleShape):
         self.position = pygame.Vector2(x,y)
         self.rotation = 0
         self.shooting_cooldown = 0
+        self.lives = 3
 
     def triangle(self):
         forward = pygame.Vector2(0,1).rotate(self.rotation)
@@ -54,4 +55,14 @@ class Player(CircleShape):
             shot = Shot(self.position.x, self.position.y, SHOT_RADIUS)
             shot.velocity = pygame.Vector2(0,1).rotate(self.rotation) * PLAYER_SHOT_SPEED
             self.shooting_cooldown = PLAYER_SHOOT_COOLDOWN
+    
+    def take_damage(self):
+        self.lives -= 1
+        if self.lives < 1:
+            return "dead"
+        else:
+            return "alive"
+
+
+
 

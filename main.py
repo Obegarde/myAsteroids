@@ -68,9 +68,14 @@ def main():
         #Iterate through asteroids and check for collisions with the player
         for asteroid in asteroids:
             if asteroid.collision_check(player):
-                print("Game Over!")
-                print("You scored " + str(score) + " points")
-                sys.exit()
+                damage_reaction = player.take_damage()
+                if damage_reaction == "dead":
+                    print("Game Over!")
+                    print("You scored " + str(score) + " points")
+                    sys.exit()
+                elif damage_reaction == "alive":
+                    player.position = pygame.Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+                
             #Iterate through shots and check if the collide with any asteroid
             for shot in shots:
                 if asteroid.collision_check(shot):
