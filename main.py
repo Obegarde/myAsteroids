@@ -15,7 +15,8 @@ def main():
     #Delta time, initialized will be used to ensure the game runs at the same pace
     dt = 0
     
-
+    #load the background image
+    bg_image = pygame.image.load('spacebackground.png')
 
     #Variable to hold the current score
     score = 0
@@ -57,8 +58,8 @@ def main():
             if event.type == pygame.QUIT:
                 return
         
-        #fills the screen with a color black in this case
-        screen.fill('#000000')
+        #draw the background image to the screen display object
+        screen.blit(bg_image,(0,0))
 
 
         #Iterate through the updateable group and update all members

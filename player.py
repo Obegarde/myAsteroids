@@ -9,6 +9,9 @@ class Player(CircleShape):
         self.rotation = 0
         self.shooting_cooldown = 0
         self.lives = 3
+        self.current_speed = 0
+        self.acceleration = 5
+        self.max_speed = 1000
 
     def triangle(self):
         forward = pygame.Vector2(0,1).rotate(self.rotation)
@@ -27,6 +30,7 @@ class Player(CircleShape):
 
     def update(self, dt):
         keys = pygame.key.get_pressed()
+        self.move(dt)
         # Call rotate with negative delta time so pressing A rotates you counter clockwise
         if keys[pygame.K_a]:
             self.rotate(-dt)
@@ -35,19 +39,29 @@ class Player(CircleShape):
             self.rotate(dt)
         #call move with positive delta time to move forward
         if keys[pygame.K_w]:
-            self.move(dt)
+            self.current_speed += self.acceleration
         #call move with negative dt to move backwards
         if keys[pygame.K_s]:
-            self.move(-dt)
+            self.current_speed -= self.acceleration
         if keys[pygame.K_SPACE]:
             self.shoot()
         
         self.shooting_cooldown -= dt
 
+     
     def move(self,dt):
         forward = pygame.Vector2(0,1).rotate(self.rotation)
-        self.position += forward * PLAYER_SPEED * dt 
-
+        self.position += forward * self.current_speed * dt
+        if self.current_speed > self.max_speed:
+            self.current_speed = self.max_speed
+        if self.position.x < 0:
+            self.position.x = SCREEN_WIDTH
+        elif self.position.x > SCREEN_WIDTH:
+            self.position.x = 0
+        elif self.position.y < 0:
+            self.position.y = SCREEN_HEIGHT
+        elif self.position.y > SCREEN_HEIGHT:
+            self.position.y = 0
 
     
     def shoot(self):
