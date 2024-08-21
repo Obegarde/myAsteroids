@@ -21,6 +21,12 @@ def main():
         
         #fills the screen with a color black in this case
         screen.fill('#000000')
+
+
+        #call update on player to enable rotation of player sprite
+        player.update(dt)
+
+
         #draw the player to the screen
         player.draw(screen)
         #Update the display
